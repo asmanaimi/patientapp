@@ -13,9 +13,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffEEEEFF),
-      body: SingleChildScrollView(
-        
-      ),
+      body: 
+       Text(
+            "Welcome",
+            
+            ),
     );
   }
 }

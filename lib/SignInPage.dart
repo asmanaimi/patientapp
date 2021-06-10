@@ -185,7 +185,7 @@ class _SignInPageState extends State<SignInPage> {
                     };
 
                     var response =
-                        await networkHandler.post("/user/authuser", data);
+                        await networkHandler.post("/user/login", data);
 
                     if (response.statusCode == 200 ||
                         response.statusCode == 201) {

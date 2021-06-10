@@ -102,7 +102,7 @@ class _SignInPageState extends State<SignUpPage> {
                            "email": _emailController.text,
                       };
                       var response =
-                          await networkHandler.post("/user/authuser", data);
+                          await networkHandler.post("/user/login", data);
 
                       if (response.statusCode == 200 ||
                           response.statusCode == 201) {

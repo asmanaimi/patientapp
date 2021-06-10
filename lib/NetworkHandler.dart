@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
 class NetworkHandler {
-  String baseurl = "http://192.168.1.4:3000";
+  String baseurl = "http://172.16.21.246:3000";
   var log = Logger();
   FlutterSecureStorage storage = FlutterSecureStorage();
   Future get(String url) async {
@@ -19,7 +19,6 @@ class NetworkHandler {
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       log.i(response.body);
-
       return json.decode(response.body);
     }
     log.i(response.body);

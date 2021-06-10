@@ -1,7 +1,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:patientapp/HomeScreen.dart';
 import 'package:patientapp/NetworkHandler.dart';
+import 'package:patientapp/ProfileScreen.dart';
 import 'package:patientapp/SignInPage.dart';
 
 
@@ -15,7 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 int currentState = 0;
-  //List<Widget> widgets = [HomeScreen(), ProfileScreen()];
+ List<Widget> widgets = [HomeScreen(), ProfileScreen()];
   List<String> titleString = ["Home Page", "Profile Page"];
   final storage = FlutterSecureStorage();
   NetworkHandler networkHandler = NetworkHandler();
@@ -33,10 +35,10 @@ int currentState = 0;
   void initState() {
     // TODO: implement initState
     super.initState();
-    checkProfile();
+    //checkProfile();
   }
 
-  void checkProfile() async {
+  /*void checkProfile() async {
     var response = await networkHandler.get("/profile/checkProfile");
     setState(() {
       username = response['username'];
@@ -61,7 +63,7 @@ int currentState = 0;
       });
     }
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,11 +96,11 @@ int currentState = 0;
               trailing: Icon(Icons.settings),
               onTap: () {},
             ),
-            ListTile(
+           /* ListTile(
               title: Text("Feedback"),
               trailing: Icon(Icons.feedback),
               onTap: () {},
-            ),
+            ),*/
             ListTile(
               title: Text("Logout"),
               trailing: Icon(Icons.power_settings_new),
@@ -108,7 +110,7 @@ int currentState = 0;
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.greenAccent[400],
         title: Text(titleString[currentState]),
         centerTitle: true,
         actions: <Widget>[
@@ -117,7 +119,7 @@ int currentState = 0;
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.greenAccent[400],
         onPressed: () {
          // Navigator.of(context)
            //   .push(MaterialPageRoute(builder: (context) => AddBlog()));
@@ -128,7 +130,7 @@ int currentState = 0;
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.teal,
+        color: Colors.greenAccent[400],
         shape: CircularNotchedRectangle(),
         notchMargin: 12,
         child: Container(
@@ -163,7 +165,7 @@ int currentState = 0;
           ),
         ),
       ),
-    //  body: widgets[currentState],
+      body: widgets[currentState],
     );
   }
 
