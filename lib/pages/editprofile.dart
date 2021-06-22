@@ -1,29 +1,62 @@
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:patientapp/HomePage.dart';
+
 import 'package:patientapp/NetworkHandler.dart';
+import 'package:patientapp/models/profileModel.dart';
+import 'package:patientapp/pages/HomePage.dart';
 
-class CreatProfile extends StatefulWidget {
-  CreatProfile({Key key}) : super(key: key);
 
+class EditProfile extends StatefulWidget {
+ // editProfile({Key key}) : super(key: key);
+EditProfile(this.profilemodel);
+
+  final ProfileModel profilemodel;
   @override
-  _CreatProfileState createState() => _CreatProfileState();
+  _EditProfileState createState() => _EditProfileState();
 }
 
-class _CreatProfileState extends State<CreatProfile> {
-  final networkHandler = NetworkHandler();
+class _EditProfileState extends State<EditProfile> {
+
+    final networkHandler = NetworkHandler();
   bool circular = false;
   PickedFile _imageFile;
   final _globalkey = GlobalKey<FormState>();
-  TextEditingController _username = TextEditingController();
-  TextEditingController _tel = TextEditingController();
-  TextEditingController _adress = TextEditingController();
+ //   String email = '';
+  TextEditingController _username ;
+  TextEditingController _tel ;
+  TextEditingController _adress ;
+  String username,tel,adress;
   final ImagePicker _picker = ImagePicker();
+    @override
+  void initState() {
+    super.initState();
+//email = widget.profilemodel.email;
+
+ _username =
+new TextEditingController(text: widget.profilemodel.username);
+
+ _tel =
+new TextEditingController(text: widget.profilemodel.tel);
+   _adress =
+new TextEditingController(text: widget.profilemodel.adress);  
+   fetchData();
+  }
+ ProfileModel profileModel = ProfileModel();
+  void fetchData() async {
+    
+    var response = await networkHandler.get("/profile/getData");
+    setState(() {
+      profileModel = ProfileModel.fromJson(response["data"]);
+      circular = false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
+  //fetchData();
     return Scaffold(
       body: Form(
         key: _globalkey,
@@ -46,45 +79,41 @@ class _CreatProfileState extends State<CreatProfile> {
             SizedBox(
               height: 20,
             ),
-           
+              
             InkWell(
               onTap: () async {
                 setState(() {
                   circular = true;
                 });
-                if (_globalkey.currentState.validate()) {
-                  Map<String, String> data = {
-                    "name": _username.text,
+                   if (_globalkey.currentState.validate()) {
+                       
+                      Map<String, String> data = {
+                    "username": _username.text,
+                   
                     "tel": _tel.text,
                     "adress": _adress.text,
                     
                   };
-                  var response =
-                      await networkHandler.post("/profile/add", data);
-                  if (response.statusCode == 200 ||
-                      response.statusCode == 201) {
-                    if (_imageFile.path != null) {
-                      var imageResponse = await networkHandler.patchImage(
-                          "/profile/add/image", _imageFile.path);
-                      if (imageResponse.statusCode == 200) {
-                        setState(() {
-                          circular = false;
-                        });
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => HomePage()),
-                            (route) => false);
-                      }
-                    } else {
-                      setState(() {
-                        circular = false;
-                      });
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (context) => HomePage()),
+                                
+                       _globalkey.currentState.save();
+                  
+                       networkHandler.patch("/profile/update", data);
+               
+                   
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePage(),
+                          ),
                           (route) => false);
-                    }
-                  }
-                }
-              },
+                    
+                        }  
+                       
+                        
+                    
+                   
+                },
+              
               child: Center(
                 child: Container(
                   width: 200,
@@ -97,7 +126,7 @@ class _CreatProfileState extends State<CreatProfile> {
                     child: circular
                         ? CircularProgressIndicator()
                         : Text(
-                            "Submit",
+                            "update",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -113,6 +142,7 @@ class _CreatProfileState extends State<CreatProfile> {
       ),
     );
   }
+
 
   Widget imageProfile() {
     return Center(
@@ -194,90 +224,62 @@ class _CreatProfileState extends State<CreatProfile> {
   }
 
   Widget nameTextField() {
-    return TextFormField(
-      controller: _username,
-      validator: (value) {
-        if (value.isEmpty) return "Name can't be empty";
-
-        return null;
-      },
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-            borderSide: BorderSide(
-         color: Colors.greenAccent[400],
-        )),
-        focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-         color: Colors.greenAccent[400],
-          width: 2,
-        )),
-        prefixIcon: Icon(
-          Icons.person,
-         color: Colors.greenAccent[400],
-        ),
-        labelText: "Name",
-        helperText: "Name can't be empty",
-        hintText: "Dev Stack",
-      ),
-    );
+    return  TextFormField(
+                    controller: _username,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'name',
+                      fillColor: Colors.grey[300],
+                      filled: true,
+                    ),
+                    validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter country';
+                                  }
+                                  return null;
+                                },
+                  onSaved: (value) => username= value,
+                  );
+  
   }
 
   Widget telTextField() {
-    return TextFormField(
-      controller: _tel,
-      validator: (value) {
-        if (value.isEmpty) return "tel can't be empty";
-
-        return null;
-      },
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-            borderSide: BorderSide(
-          color: Colors.greenAccent[400],
-        )),
-        focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-           color: Colors.greenAccent[400],
-          width: 2,
-        )),
-        prefixIcon: Icon(
-          Icons.call,
-          color: Colors.green,
-        ),
-        labelText: "tel",
-        helperText: "tel can't be empty",
-        hintText: "xx xxx xxx",
-      ),
-    );
+    return  TextFormField(
+                    controller: _tel,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'tel',
+                      fillColor: Colors.grey[300],
+                      filled: true,
+                    ),
+                    validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter country';
+                                  }
+                                  return null;
+                                },
+                      onSaved: (value) => tel = value,
+                  );
   }
 
   Widget adressField() {
     return TextFormField(
-      controller: _adress,
-      validator: (value) {
-        if (value.isEmpty) return "adress can't be empty";
-
-        return null;
-      },
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-            borderSide: BorderSide(
-       color: Colors.greenAccent[400],
-        )),
-        focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-         color: Colors.greenAccent[400],
-          width: 2,
-        )),
-        prefixIcon: Icon(
-          Icons.home,
-          color: Colors.green,
-        ),
-        labelText: "Adress",
-        helperText: "adress",
-        hintText: "xx xxxxx  xxxxxx",
-      ),
-    );
+                    controller: _adress,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'adress',
+                      fillColor: Colors.grey[300],
+                      filled: true,
+                    ),
+                    validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter country';
+                                  }
+                                  return null;
+                                },
+                      onSaved: (value) => adress = value,
+                  
+                  );
   }
 
 }

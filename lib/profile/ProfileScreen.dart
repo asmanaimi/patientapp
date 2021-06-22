@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:patientapp/CreatProfile.dart';
-import 'package:patientapp/MainProfile.dart';
 
+import 'package:flutter/material.dart';
 import 'package:patientapp/NetworkHandler.dart';
+import 'package:patientapp/profile/CreatProfile.dart';
+import 'package:patientapp/profile/MainProfile.dart';
+
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key key}) : super(key: key);
 
@@ -15,7 +16,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget page = CircularProgressIndicator();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     checkProfile();
   }
@@ -77,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               child: Center(
                 child: Text(
-                  "Add Profile",
+                  "Add Proile",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -91,3 +91,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
+

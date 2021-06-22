@@ -1,26 +1,22 @@
- 
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:patientapp/ForgotPassword.dart';
-import 'package:patientapp/HomePage.dart';
 import 'package:patientapp/NetworkHandler.dart';
-import 'package:patientapp/SignUpPage.dart';
+import 'package:patientapp/pages/SignInPage.dart';
 
-class SignInPage extends StatefulWidget {
-  SignInPage({Key key}) : super(key: key);
+class ForgotPasswordPage extends StatefulWidget {
+  ForgotPasswordPage({Key key}) : super(key: key);
 
   @override
-  _SignInPageState createState() => _SignInPageState();
+  _ForgotPasswordPageState createState() => _ForgotPasswordPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
-   bool vis = true;
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+  bool vis = true;
   final _globalkey = GlobalKey<FormState>();
   NetworkHandler networkHandler = NetworkHandler();
     TextEditingController _emailController = TextEditingController();
 
+  TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   String errorText;
   bool validate = false;
@@ -165,106 +161,104 @@ class _SignInPageState extends State<SignInPage> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(100)),
                      color: Colors.greenAccent[400],),
-                child: FlatButton(
+           child: FlatButton(
                   child: Text(
-                    "Login",
+                    "Update password",
                     style: TextStyle(
                          color: Colors.white,
                         fontWeight: FontWeight.w700,
                         fontSize: 18),
                   ),
-                   onPressed: () async {
-                     setState(() {
-                      circular = true;
-                    });
-                      //await checkUser();
-                 // if (_globalkey.currentState.validate() && validate) {
+                 
+                
+                  onPressed: () async {
                     Map<String, String> data = {
-                      "email": _emailController.text,
-                      "password": _passwordController.text,
+                      "password": _passwordController.text
                     };
-
-                    var response =
-                        await networkHandler.post("/user/login", data);
+                    print("/user/update/${_emailController.text}");
+                    var response = await networkHandler.patch(
+                        "/user/update/${_emailController.text}", data);
 
                     if (response.statusCode == 200 ||
                         response.statusCode == 201) {
-                      Map<String, dynamic> output = json.decode(response.body);
-                     
-                    
-                      print(output["token"]);
-                     
-                      await storage.write(key: "token", value: output["token"]);
-                      setState(() {
-                        validate = true;
-                        circular = false;
-                      });
-                        if (output["token"] != null) {  
-                   
+                      print("/user/update/${_emailController.text}");
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => HomePage(),
-                          ),
+                              builder: (context) => SignInPage()),
                           (route) => false);
-                    
-                        }  
-                       
-                        }
-                    else {
-                      String output = json.decode(response.body);
-                      setState(() {
-                        validate = false;
-                        errorText = output;
-                        circular = false;
-                      });
                     }
-                  //  }
+
+                    // login logic End here
                   },
                 ),
                    
-              )),
-              SizedBox(height: 20,),
-       InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ForgotPasswordPage()));
-                      },
-         
-            child: Center(child: Text("FORGOT PASSWORD ?", style: TextStyle( color: Colors.greenAccent[400],fontSize: 12 ,fontWeight: FontWeight.w700),)),
+           ),
+                   
+                  
+              ),
+            
+                
+              ],
+            ),
           
-       ),
-          SizedBox(height: 10,),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("Don't have an Account ? ", style: TextStyle(color:Colors.black,fontSize: 12 ,fontWeight: FontWeight.normal),),
-             InkWell(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SignUpPage()));
-                      },
-              child:Text("Sign Up ", style: TextStyle( color: Colors.greenAccent[400], fontWeight: FontWeight.w500,fontSize: 12, decoration: TextDecoration.underline )),
-             ),
-            ],
-          )
-        ],
-      ),
+        
+      
     );
   }
 
+  Widget usernameTextField() {
+    return Column(
+      children: [
+        Text("email"),
+        TextFormField(
+          controller: _emailController,
+          decoration: InputDecoration(
+            errorText: validate ? null : errorText,
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.black,
+                width: 2,
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
 
- 
-
- 
- 
-
+  Widget passwordTextField() {
+    return Column(
+      children: [
+        Text("Password"),
+        TextFormField(
+          controller: _passwordController,
+          obscureText: vis,
+          decoration: InputDecoration(
+            errorText: validate ? null : errorText,
+            suffixIcon: IconButton(
+              icon: Icon(vis ? Icons.visibility_off : Icons.visibility),
+              onPressed: () {
+                setState(() {
+                  vis = !vis;
+                });
+              },
+            ),
+            helperStyle: TextStyle(
+              fontSize: 14,
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.black,
+                width: 2,
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
 }
-
 
 class WaveClipper1 extends CustomClipper<Path> {
   @override
@@ -294,6 +288,3 @@ class WaveClipper1 extends CustomClipper<Path> {
 
   
 }
-
- 
-  

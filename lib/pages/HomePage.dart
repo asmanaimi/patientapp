@@ -1,10 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:patientapp/HomeScreen.dart';
 import 'package:patientapp/NetworkHandler.dart';
-import 'package:patientapp/ProfileScreen.dart';
-import 'package:patientapp/SignInPage.dart';
+import 'package:patientapp/pages/HomeScreen.dart';
+import 'package:patientapp/pages/SignInPage.dart';
+import 'package:patientapp/pages/addordonnance.dart';
+import 'package:patientapp/profile/ProfileScreen.dart';
 
 
 
@@ -21,7 +22,7 @@ int currentState = 0;
   List<String> titleString = ["Home Page", "Profile Page"];
   final storage = FlutterSecureStorage();
   NetworkHandler networkHandler = NetworkHandler();
-  String username = "";
+  String email = "";
   Widget profilePhoto = Container(
     height: 100,
     width: 100,
@@ -35,19 +36,19 @@ int currentState = 0;
   void initState() {
     // TODO: implement initState
     super.initState();
-    //checkProfile();
+    checkProfile();
   }
 
-  /*void checkProfile() async {
+  void checkProfile() async {
     var response = await networkHandler.get("/profile/checkProfile");
     setState(() {
-      username = response['username'];
+      email = response['email'];
     });
     if (response["status"] == true) {
       setState(() {
         profilePhoto = CircleAvatar(
           radius: 50,
-          backgroundImage: NetworkHandler().getImage(response['username']),
+          backgroundImage: NetworkHandler().getImage(response['email']),
         );
       });
     } else {
@@ -63,7 +64,7 @@ int currentState = 0;
       });
     }
   }
-*/
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,17 +78,17 @@ int currentState = 0;
                   SizedBox(
                     height: 10,
                   ),
-                  Text("@$username"),
+                  Text("@$email"),
                 ],
               ),
             ),
             ListTile(
-              title: Text("All Post"),
+              title: Text("All Ordonnances"),
               trailing: Icon(Icons.launch),
               onTap: () {},
             ),
             ListTile(
-              title: Text("New Story"),
+              title: Text("New ordonnance"),
               trailing: Icon(Icons.add),
               onTap: () {},
             ),
@@ -121,8 +122,8 @@ int currentState = 0;
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.greenAccent[400],
         onPressed: () {
-         // Navigator.of(context)
-           //   .push(MaterialPageRoute(builder: (context) => AddBlog()));
+          Navigator.of(context)
+             .push(MaterialPageRoute(builder: (context) => Addordonnance()));
         },
         child: Text(
           "+",

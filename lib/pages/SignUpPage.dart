@@ -3,10 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:patientapp/HomePage.dart';
+
 
 import 'package:patientapp/NetworkHandler.dart';
-import 'package:patientapp/SignInPage.dart';
+import 'package:patientapp/pages/SignInPage.dart';
+
 
 class SignUpPage extends StatefulWidget {
   SignUpPage({Key key}) : super(key: key);

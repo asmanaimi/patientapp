@@ -1,6 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:patientapp/NetworkHandler.dart';
-import 'package:patientapp/profileModel.dart';
+import 'package:patientapp/models/profileModel.dart';
+import 'package:patientapp/pages/editprofile.dart';
 
 class MainProfile extends StatefulWidget {
   MainProfile({Key key}) : super(key: key);
@@ -43,7 +45,13 @@ class _MainProfileState extends State<MainProfile> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.edit),
-            onPressed: () {},
+            onPressed: () {
+
+                Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => EditProfile(this.profileModel)),
+                            (route) => false);
+                      
+            },
             color: Colors.black,
           ),
         ],
@@ -52,30 +60,7 @@ class _MainProfileState extends State<MainProfile> {
           ? Center(child: CircularProgressIndicator())
           : ListView(
               children: <Widget>[
-                head(),
-                Divider(
-                  thickness: 0.8,
-                ),
-             
-                otherDetails("username",profileModel.username),
-                otherDetails("adress", profileModel.adress),
-                otherDetails("tel",profileModel.tel),
-                Divider(
-                  thickness: 0.8,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-              /*  Blogs(
-                  url: "/blogpost/getOwnBlog",
-                ),*/
-              ],
-            ),
-    );
-  }
-
-  Widget head() {
-    return Padding(
+            Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,21 +68,38 @@ class _MainProfileState extends State<MainProfile> {
           Center(
             child: CircleAvatar(
               radius: 50,
-              backgroundImage: NetworkHandler().getImage(profileModel.username),
+              backgroundImage: NetworkHandler().getImage(profileModel.email),
             ),
           ),
-          Text(
-            profileModel.username,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
+                 Text(profileModel.email?? ' ',
+    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+), 
           SizedBox(
             height: 10,
           ),
-          Text(profileModel.username),
+  
         ],
       ),
+    ),
+                Divider(
+                  thickness: 0.8,
+                ),
+                otherDetails("username", profileModel.username?? ' '),
+                otherDetails("tel", profileModel.tel?? ' '),
+                otherDetails("adress", profileModel.adress?? ' '),
+                Divider(
+                  thickness: 0.8,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              
+              ],
+            ),
     );
   }
+
+
   Widget otherDetails(String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -105,12 +107,14 @@ class _MainProfileState extends State<MainProfile> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
+            
             "$label :",
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.bold,
             ),
           ),
+          
           SizedBox(
             height: 5,
           ),
