@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:patientapp/NetworkHandler.dart';
 import 'package:patientapp/models/profileModel.dart';
 import 'package:patientapp/pages/editprofile.dart';
+import 'package:patientapp/pages/ordonnances.dart';
 
 class MainProfile extends StatefulWidget {
   MainProfile({Key key}) : super(key: key);
@@ -93,7 +94,10 @@ class _MainProfileState extends State<MainProfile> {
                 SizedBox(
                   height: 20,
                 ),
-              
+              /*Ordonnances(
+  url: "/ordonnances/getownordonnances",
+
+              ),*/
               ],
             ),
     );

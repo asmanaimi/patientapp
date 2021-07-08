@@ -1,5 +1,4 @@
 
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -25,7 +24,7 @@ class _EditProfileState extends State<EditProfile> {
   bool circular = false;
   PickedFile _imageFile;
   final _globalkey = GlobalKey<FormState>();
- //   String email = '';
+    String email = '';
   TextEditingController _username ;
   TextEditingController _tel ;
   TextEditingController _adress ;
@@ -34,7 +33,7 @@ class _EditProfileState extends State<EditProfile> {
     @override
   void initState() {
     super.initState();
-//email = widget.profilemodel.email;
+email = widget.profilemodel.email;
 
  _username =
 new TextEditingController(text: widget.profilemodel.username);

@@ -2,7 +2,7 @@
 
 
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:patientapp/CustomWidget/OverlayCard.dart';
@@ -20,9 +20,11 @@ class _AddordonnanceState extends State<Addordonnance> {
    final _globalkey = GlobalKey<FormState>();
    TextEditingController _medecin = TextEditingController();
   TextEditingController _priseencharge = TextEditingController();
+  TextEditingController _listpharmacy = TextEditingController();
   ImagePicker _picker = ImagePicker();
   PickedFile _imageFile;
   IconData iconphoto = Icons.image;
+  List Listitempharmacy = List();
   NetworkHandler networkHandler = NetworkHandler();
   var  selectedType;
   List<String> priseencharge = <String>[
@@ -31,6 +33,24 @@ class _AddordonnanceState extends State<Addordonnance> {
     'cnam',
   
   ];
+   Future getListPharmacie()async{
+   var response= await http.get("http://192.168.43.145:3000/admins/list-pha");
+   if(response.statusCode == 200){
+     var jsonData = json.decode(response.body);
+     setState((){
+     Listitempharmacy =jsonData;
+     });
+   }
+   print(Listitempharmacy);
+ }
+   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  //  fetchData();
+     // futureData = fetchData();
+getListPharmacie();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +106,13 @@ body:Form(
                 height: 20,
   
               ),
+  listepharmacy(),
+      SizedBox(
   
+                height: 20,
+  
+              ),
+
               addButton(),
   
     ],
@@ -171,12 +197,45 @@ body:Form(
       ),
     );
   }
+
+   Widget listepharmacy() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+      ),
+      child:         Container(
+        
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black45),
+          borderRadius: BorderRadius.circular(8.0),
+          color: Colors.black12,  //add it here
+        ),
+       
+        child:   new PopupMenuButton<String>(
+                        icon: const Icon(Icons.arrow_drop_down),
+
+                        onSelected: (String pharmacie) {
+                          _listpharmacy.text = pharmacie;
+                        },
+                        itemBuilder: (BuildContext context) {
+                         return Listitempharmacy.map<PopupMenuItem<String>>((pharmacie) {
+                            return new PopupMenuItem(child: new Text(pharmacie['name']),  value:pharmacie['name']);
+                          }).toList();
+                        },
+                      ),
+          
+          
+      
+      ),
+    );
+  }
+   
    Widget addButton() {
       return InkWell(
       onTap: () async {
         if (_imageFile != null && _globalkey.currentState.validate()) {
           AddOrdoModel addOrdoModel =
-               AddOrdoModel(medecin: _medecin.text, priseencharge: _priseencharge.text);
+               AddOrdoModel(medecin: _medecin.text, priseencharge: _priseencharge.text,listp: _listpharmacy.text);
           var response = await networkHandler.post1(
               "/ordonnances/add", addOrdoModel.toJson());
           print(response.body);

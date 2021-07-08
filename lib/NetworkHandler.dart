@@ -1,14 +1,16 @@
 import 'dart:convert';
 
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
 class NetworkHandler {
-  String baseurl = "http://172.16.21.246:3000";
+  String baseurl = "http://192.168.1.4:3000";
   var log = Logger();
   FlutterSecureStorage storage = FlutterSecureStorage();
+
   Future get(String url) async {
     String token = await storage.read(key: "token");
     url = formater(url);
@@ -92,4 +94,30 @@ class NetworkHandler {
     String url = formater("/uploads//$imageName.jpg");
     return NetworkImage(url);
   }
+
+Future<http.Response> delete(String url, var body) async {
+    String token = await storage.read(key: "token");
+    url = formater(url);
+    log.d(body);
+    var response = await http.delete(
+      url,
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer $token"
+      },
+    );
+    return response;
+  }
+/*Future<List<Pharmacy>> getCases() async {
+    Response res = await get("/admins/listpha");
+
+    if (res.statusCode == 200) {
+      List<dynamic> body = jsonDecode(res.body);
+      List<Pharmacy> cases = body.map((String,dynamic) => Pharmacy.fromJson(item)).toList();
+      return cases;
+    } else {
+      throw "Failed to load cases list";
+    }
+  }*/
+ 
 }

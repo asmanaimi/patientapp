@@ -8,7 +8,6 @@ import 'package:patientapp/pages/addordonnance.dart';
 import 'package:patientapp/profile/ProfileScreen.dart';
 
 
-
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
 
@@ -34,7 +33,7 @@ int currentState = 0;
 
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
     checkProfile();
   }
@@ -93,9 +92,18 @@ int currentState = 0;
               onTap: () {},
             ),
             ListTile(
-              title: Text("Settings"),
+              title: Text("Liste pharmacy"),
               trailing: Icon(Icons.settings),
-              onTap: () {},
+              onTap: () {
+             /*   Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) =>ListePharmacypage(
+  //url: "/admins/listpha",
+ 
+              ),),
+                            (route) => false);
+                 */     
+       
+              },
             ),
            /* ListTile(
               title: Text("Feedback"),

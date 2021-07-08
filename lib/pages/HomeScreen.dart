@@ -1,5 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:patientapp/pages/ordonnances.dart';
+
+
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
@@ -14,10 +17,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Color(0xffEEEEFF),
       body: 
-       Text(
-            "Welcome",
-            
-            ),
+      SingleChildScrollView(
+       child: Ordonnances(
+  url: "/ordonnances/getownordonnances",
+ 
+              ),
+      ),
+ 
     );
   }
 }
+

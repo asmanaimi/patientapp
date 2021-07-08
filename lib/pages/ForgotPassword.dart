@@ -117,8 +117,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextFormField(
-                onChanged: (String value){},
-                cursorColor: Colors.deepOrange,
+               // onChanged: (String value){},
+                //cursorColor: Colors.deepOrange,
               controller: _passwordController,
            validator: (value) {
               if (value.isEmpty) return "Password can't be empty";
