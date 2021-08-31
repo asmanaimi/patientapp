@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:patientapp/CustomWidget/OverlayCard.dart';
 import 'package:patientapp/NetworkHandler.dart';
 import 'package:patientapp/models/AddOrdoModel.dart';
+import 'package:patientapp/models/Pharmacy.dart';
 import 'package:patientapp/pages/HomePage.dart';
 class Addordonnance extends StatefulWidget {
   Addordonnance({Key key}) : super(key: key);
@@ -24,7 +25,7 @@ class _AddordonnanceState extends State<Addordonnance> {
   ImagePicker _picker = ImagePicker();
   PickedFile _imageFile;
   IconData iconphoto = Icons.image;
-  List Listitempharmacy = List();
+  List listitempharmacy =  List();
   NetworkHandler networkHandler = NetworkHandler();
   var  selectedType;
   List<String> priseencharge = <String>[
@@ -33,15 +34,17 @@ class _AddordonnanceState extends State<Addordonnance> {
     'cnam',
   
   ];
+
    Future getListPharmacie()async{
-   var response= await http.get("http://192.168.43.145:3000/admins/list-pha");
+   var response= await http.get("http://172.16.20.35:3000/pharmaciens/list-pha");
    if(response.statusCode == 200){
      var jsonData = json.decode(response.body);
+   
      setState((){
-     Listitempharmacy =jsonData;
+     listitempharmacy =jsonData;
+     
      });
    }
-   print(Listitempharmacy);
  }
    @override
   void initState() {
@@ -211,19 +214,20 @@ body:Form(
           color: Colors.black12,  //add it here
         ),
        
-        child:   new PopupMenuButton<String>(
+        child:  
+  
+    
+          new PopupMenuButton<String>(
                         icon: const Icon(Icons.arrow_drop_down),
-
-                        onSelected: (String pharmacie) {
-                          _listpharmacy.text = pharmacie;
+                        onSelected: (String value) {
+                          _listpharmacy.text = value;
                         },
                         itemBuilder: (BuildContext context) {
-                         return Listitempharmacy.map<PopupMenuItem<String>>((pharmacie) {
-                            return new PopupMenuItem(child: new Text(pharmacie['name']),  value:pharmacie['name']);
+                          return listitempharmacy.map<PopupMenuItem<String>>((pharmacy) {
+                            return new PopupMenuItem(child: new Text(pharmacy['listp']),  value:pharmacy['listp']);
                           }).toList();
                         },
                       ),
-          
           
       
       ),

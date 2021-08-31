@@ -9,6 +9,7 @@ String email;
   String priseencharge;
   String listp;
 String coverImage;
+String technicien;
 @JsonKey(name: "_id")
   String id;
   AddOrdoModel(
@@ -17,7 +18,7 @@ String coverImage;
       this.email,
       this.priseencharge,
            this.id,
-
+this.technicien,
      this.listp,
       this.coverImage,
 //       String selectedType,

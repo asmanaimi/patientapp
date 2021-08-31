@@ -87,7 +87,7 @@ globalmodel globalModel = globalmodel();
                           },
                          
                           child: OrdoCard(
-                            addOrdoModel: item,
+                           addOrdoModel: item,
                             networkHandler: networkHandler,
                           ),
 
