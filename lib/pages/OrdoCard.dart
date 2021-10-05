@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:patientapp/NetworkHandler.dart';
 import 'package:patientapp/models/AddOrdoModel.dart';
+import 'package:patientapp/pages/HomePage.dart';
 
 class OrdoCard extends StatelessWidget {
   const  OrdoCard({Key key, this.addOrdoModel, this.networkHandler})
@@ -59,8 +60,11 @@ class OrdoCard extends StatelessWidget {
 
         networkHandler.delete(
               "/ordonnances/delete/${addOrdoModel.id}",addOrdoModel);
-                Navigator.popUntil(context, ModalRoute.withName(Navigator.defaultRouteName));
-              },
+Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomePage()),
+                          (route) => false);              },
             ),
             FlatButton(
               child: const Text('No'),

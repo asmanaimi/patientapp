@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:patientapp/logopage.dart';
 import 'package:patientapp/pages/HomePage.dart';
 
 //import 'package:patientapp/SignInPage.dart';
@@ -34,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       });
     } else {
       setState(() {
-        page = SplashScreen();
+        page = Logopage();
       });
     }
   }

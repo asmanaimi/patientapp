@@ -45,17 +45,17 @@ globalmodel globalModel = globalmodel();
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Warning!'),
+          title: Text('Alerte!'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Are you sure want delete this item?'),
+                Text('Voulez-vous vraiment supprimer cet élément ?'),
               ],
             ),
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text('Yes'),
+              child: Text('Oui'),
               onPressed: () {
                 AddOrdoModel addOrdoModel = AddOrdoModel();
 
@@ -66,7 +66,7 @@ globalmodel globalModel = globalmodel();
               },
             ),
             FlatButton(
-              child: const Text('No'),
+              child: const Text('Non'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -120,7 +120,7 @@ globalmodel globalModel = globalmodel();
                 .toList(),
           )
         : Center(
-            child: Text("We don't have any ordo"),
+            child: Text("Vous n'avez pas ajouter  une ordonnace"),
           );
   }
   

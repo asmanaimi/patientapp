@@ -1,6 +1,7 @@
  
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -19,6 +20,8 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+ var myToken;
    bool vis = true;
   final _globalkey = GlobalKey<FormState>();
   NetworkHandler networkHandler = NetworkHandler();
@@ -29,6 +32,37 @@ class _SignInPageState extends State<SignInPage> {
   bool validate = false;
   bool circular = false;
   final storage = new FlutterSecureStorage();
+  @override
+  void initState() {
+    super.initState();
+      _firebaseMessaging.getToken().then((String token) {
+      assert(token != null);
+      setState(() {
+        myToken = token ;
+      });
+      print(myToken);
+    });
+    
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+       // _showItemDialog(message);
+      },
+      //onBackgroundMessage: myBackgroundMessageHandler,
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        //_navigateToItemDetail(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        //_navigateToItemDetail(message);
+      },
+    );
+  
+  
+  
+    
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,24 +80,22 @@ class _SignInPageState extends State<SignInPage> {
                   child: Column(
                     children: <Widget>[
                       SizedBox(
-                        height: 40,
+                        height: 60,
                       ),
-                      Icon(
-                        Icons.local_pharmacy_outlined,
-                        color: Colors.white,
-                        size: 60,
-                      ),
+                    
                       
+                      Center(
+                        child: Image.asset('assets/logo3.png',
+        height: 100,
+        width: 110,
+                         // color: Colors.white,
+
+        ),
+                      ),
                       SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        "  Dweya  ",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 30),
-                      ),
+                    
                     ],
                   ),
                   width: double.infinity,
@@ -134,7 +166,7 @@ class _SignInPageState extends State<SignInPage> {
           obscureText: vis,
           decoration: InputDecoration(
             errorText: validate ? null : errorText,
-                    hintText: "Password",
+                    hintText: "Mot de passe",
                     
                     prefixIcon: Material(
                       elevation: 0,
@@ -145,7 +177,7 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ),
                     suffixIcon: IconButton(
-                        color: Colors.greenAccent[400],
+                        color: Color(0xFF00E676),
               icon: Icon(vis ? Icons.visibility_off : Icons.visibility),
               onPressed: () {
                 setState(() {
@@ -170,7 +202,7 @@ class _SignInPageState extends State<SignInPage> {
                      color: Colors.greenAccent[400],),
                 child: FlatButton(
                   child: Text(
-                    "Login",
+                    "Se connecter",
                     style: TextStyle(
                          color: Colors.white,
                         fontWeight: FontWeight.w700,
@@ -185,6 +217,8 @@ class _SignInPageState extends State<SignInPage> {
                     Map<String, String> data = {
                       "email": _emailController.text,
                       "password": _passwordController.text,
+                      "token": myToken,
+
                     };
 
                     var response =
@@ -236,14 +270,14 @@ class _SignInPageState extends State<SignInPage> {
                                 builder: (context) => ForgotPasswordPage()));
                       },
          
-            child: Center(child: Text("FORGOT PASSWORD ?", style: TextStyle( color: Colors.greenAccent[400],fontSize: 12 ,fontWeight: FontWeight.w700),)),
+            child: Center(child: Text("mot de passe oublié(e) ?", style: TextStyle( color: Colors.greenAccent[400],fontSize: 12 ,fontWeight: FontWeight.w700),)),
           
        ),
           SizedBox(height: 10,),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text("Don't have an Account ? ", style: TextStyle(color:Colors.black,fontSize: 12 ,fontWeight: FontWeight.normal),),
+              Text("vous n'avez pas un compte ? ", style: TextStyle(color:Colors.black,fontSize: 12 ,fontWeight: FontWeight.normal),),
              InkWell(
                       onTap: () {
                         Navigator.pushReplacement(
@@ -251,7 +285,7 @@ class _SignInPageState extends State<SignInPage> {
                             MaterialPageRoute(
                                 builder: (context) => SignUpPage()));
                       },
-              child:Text("Sign Up ", style: TextStyle( color: Colors.greenAccent[400], fontWeight: FontWeight.w500,fontSize: 12, decoration: TextDecoration.underline )),
+              child:Text(" S'inscrire ", style: TextStyle( color: Colors.greenAccent[400], fontWeight: FontWeight.w500,fontSize: 12, decoration: TextDecoration.underline )),
              ),
             ],
           )
@@ -297,6 +331,3 @@ class WaveClipper1 extends CustomClipper<Path> {
 
   
 }
-
- 
-  

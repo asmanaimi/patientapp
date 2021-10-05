@@ -47,7 +47,7 @@ class _SignInPageState extends State<SignUpPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Sign up with email",
+                "S'inscrire ",
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -72,7 +72,7 @@ class _SignInPageState extends State<SignUpPage> {
                      color: Colors.greenAccent[400],),
                 child: FlatButton(
                   child: Text(
-                    "Sign Up",
+                    "Enregistrer",
                     style: TextStyle(
                          color: Colors.white,
                         fontWeight: FontWeight.w700,
@@ -183,21 +183,21 @@ class _SignInPageState extends State<SignUpPage> {
   }
 
   Widget usernameTextField() {
-    return
-    Material(
+     return          
+ Material(
       elevation: 2.0,
       borderRadius: BorderRadius.all(Radius.circular(30)),
       child: TextFormField(
       controller: _usernameController,
     validator: (value) {
-    if (value.isEmpty) return "username can't be empty";
+    if (value.isEmpty) return "name can't be empty";
     return null;
             },
         onChanged: (String value){},
         cursorColor: Colors.deepOrange,
         decoration: InputDecoration(
           errorText: validate ? null : errorText,
-            hintText: "username",
+            hintText: "Nom",
             prefixIcon: Material(
               elevation: 0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -210,11 +210,15 @@ class _SignInPageState extends State<SignUpPage> {
             contentPadding:
                 EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
       ),
-    );
+ );      
+          
+          
   }
 
   Widget emailTextField() {
-    return  Material(
+    return 
+            
+ Material(
       elevation: 2.0,
       borderRadius: BorderRadius.all(Radius.circular(30)),
       child: TextFormField(
@@ -241,11 +245,11 @@ class _SignInPageState extends State<SignUpPage> {
             contentPadding:
                 EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
       ),
-    );
+    
+          );
   }
-
   Widget passwordTextField() {
-    return Material(
+    return  Material(
               elevation: 2.0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: TextFormField(
@@ -259,7 +263,7 @@ class _SignInPageState extends State<SignUpPage> {
           obscureText: vis,
           decoration: InputDecoration(
             errorText: validate ? null : errorText,
-                    hintText: "Password",
+                    hintText: "Mot de passe",
                     
                     prefixIcon: Material(
                       elevation: 0,
@@ -270,7 +274,7 @@ class _SignInPageState extends State<SignUpPage> {
                       ),
                     ),
                     suffixIcon: IconButton(
-                        color: Colors.greenAccent[400],
+                        color: Color(0xFF00E676),
               icon: Icon(vis ? Icons.visibility_off : Icons.visibility),
               onPressed: () {
                 setState(() {

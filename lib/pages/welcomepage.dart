@@ -1,5 +1,8 @@
+
+
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:patientapp/pages/SignInPage.dart';
 
 
@@ -13,20 +16,39 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-        Duration(seconds: 3),
+        Duration(seconds: 4),
         () => Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (
               BuildContext context
               ) =>SignInPage())));
   }
 
-  @override
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
      //#2CD889
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Image.asset('assets/logo.png'),
+  backgroundColor: Colors.white,
+        body: Column(
+           crossAxisAlignment:CrossAxisAlignment.center,
+          children: <Widget>[
+             SizedBox(
+            height: 80,
+          ),
+            Lottie.asset('assets/patient.json',
+            width: 260,
+            height: 350,
+            ),
+            
+            Text(
+                  "Scanner votre ordonnance avec un simple clic",
+                  
+                  style: TextStyle(
+                      color: Color(0xFF69F0AE),
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,),
+                      textAlign: TextAlign.center,
+                ),]
       ),
     );
   }

@@ -7,12 +7,14 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
 class NetworkHandler {
-  String baseurl = "http://172.16.20.35:3000";
+  String baseurl = "http://192.168.43.145:3000";
   var log = Logger();
   FlutterSecureStorage storage = FlutterSecureStorage();
 
   Future get(String url) async {
     String token = await storage.read(key: "token");
+   // String mytoken = await storage.read(key: "mytoken");
+
     url = formater(url);
     // /user/register
     var response = await http.get(
@@ -119,5 +121,5 @@ Future<http.Response> delete(String url, var body) async {
       throw "Failed to load cases list";
     }
   }*/
- 
+   
 }

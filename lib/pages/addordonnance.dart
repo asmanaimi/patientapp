@@ -32,11 +32,11 @@ class _AddordonnanceState extends State<Addordonnance> {
     'cnss',
     'cnrps',
     'cnam',
-  
+
   ];
 
    Future getListPharmacie()async{
-   var response= await http.get("http://172.16.20.35:3000/pharmaciens/list-pha");
+   var response= await http.get("http://192.168.43.145:3000/pharmaciens/list-pha");
    if(response.statusCode == 200){
      var jsonData = json.decode(response.body);
    

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "173427734815",
+    "project_id": "dweyanotification",
+    "storage_bucket": "dweyanotification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:173427734815:android:bd184bafc88e8d9fb3982a",
+        "android_client_info": {
+          "package_name": "com.example.patientapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173427734815-n510jsr84ans9hujd1oj2p8jtut2ntdd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN_Z_NQjUuVPrdOnWjDw0NcE_0TLESh4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173427734815-n510jsr84ans9hujd1oj2p8jtut2ntdd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
