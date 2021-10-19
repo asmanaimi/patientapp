@@ -30,12 +30,45 @@ class _SignInPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: 
-      ListView(
+     backgroundColor: Colors.white,
+      body: ListView(
         children: <Widget>[
           Stack(
-            children: <Widget>[ 
-              Clip(),
+            children: <Widget>[
+              
+              
+              ClipPath(
+                clipper: WaveClipper1(),
+                child: Container(
+                  
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 60,
+                      ),
+                    
+                      
+                      Center(
+                        child: Image.asset('assets/logo3.png',
+        height: 100,
+        width: 110,
+                         // color: Colors.white,
+
+        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    
+                    ],
+                  ),
+                  width: double.infinity,
+                  height: 300,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [Color(0xFF69F0AE), Color(0xFF00E676)])),
+                ),
+              ),
             ],
           ),
           SizedBox(
@@ -43,34 +76,134 @@ class _SignInPageState extends State<SignUpPage> {
           ),
          Form(
           key: _globalkey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "S'inscrire ",
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2,
+         child: Column(
+                    children: <Widget>[
+      Padding(
+
+            padding: EdgeInsets.symmetric(horizontal: 32),      
+              child: Material(
+        elevation: 2.0,
+        borderRadius: BorderRadius.all(Radius.circular(30)),
+        child: TextFormField(
+        controller: _usernameController,
+    validator: (value) {
+    if (value.isEmpty) return "name can't be empty";
+    return null;
+              },
+          onChanged: (String value){},
+          cursorColor: Colors.deepOrange,
+          decoration: InputDecoration(
+            errorText: validate ? null : errorText,
+              hintText: "Nom",
+              prefixIcon: Material(
+                elevation: 0,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: Icon(
+                  Icons.contact_mail,
+                   color: Colors.greenAccent[400],
                 ),
               ),
-              SizedBox(
-                height: 20,
+              border: InputBorder.none,
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+        ),
+ ),
+      ), 
+       SizedBox(
+            height: 20,
+          ),               
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32),
+                child: 
+                
+ Material(
+      elevation: 2.0,
+      borderRadius: BorderRadius.all(Radius.circular(30)),
+      child: TextFormField(
+      controller: _emailController,
+    validator: (value) {
+    if (value.isEmpty) return "tous les champs sont oboligatoires";
+    if (!value.contains("@")) return "aaaa...@gmail.com";
+    return null;
+              },
+        onChanged: (String value){},
+        cursorColor: Colors.deepOrange,
+        decoration: InputDecoration(
+          errorText: validate ? null : errorText,
+              hintText: "votre email",
+              prefixIcon: Material(
+                elevation: 0,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: Icon(
+                  Icons.email,
+                   color: Color(0xFF00E676),
+                ),
               ),
-              usernameTextField(),
-              emailTextField(),
-              passwordTextField(),
-              
-              SizedBox(
+              border: InputBorder.none,
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+      ),
+    ),                 
+              ),
+           
+          SizedBox(
+            height: 20,
+          ),
+         Padding(
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            child: Material(
+              elevation: 2.0,
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              child: TextFormField(
+                onChanged: (String value){},
+                cursorColor: Colors.deepOrange,
+              controller: _passwordController,
+           validator: (value) {
+              if (value.isEmpty) return "tous les champs sont obligatoires";
+              return null;
+            },
+          obscureText: vis,
+          decoration: InputDecoration(
+            errorText: validate ? null : errorText,
+                    hintText: "votre mot de passe",
+                    
+                    prefixIcon: Material(
+                      elevation: 0,
+                      borderRadius: BorderRadius.all(Radius.circular(30)),
+                      child: Icon(
+                        Icons.lock,
+                        color: Color(0xFF00E676),
+                      ),
+                    ),
+                    suffixIcon: IconButton(
+                        color: Color(0xFF00E676),
+              icon: Icon(vis ? Icons.visibility_off : Icons.visibility),
+              onPressed: () {
+                setState(() {
+                  vis = !vis;
+                });
+              },
+            ),
+                    border: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+              ),
+            ),
+          ),
+           SizedBox(
             height: 25,
           ),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 32),
               child: Container(
+                                  width: 250,
+
                 decoration: BoxDecoration(
+                  
                     borderRadius: BorderRadius.all(Radius.circular(100)),
-                     color: Colors.greenAccent[400],),
-                child: FlatButton(
+                     gradient: LinearGradient(
+                          colors: [Color(0xFF69F0AE), Color(0xFF00E676)])),
+                child: TextButton(
                   child: Text(
                     "Enregistrer",
                     style: TextStyle(
@@ -202,7 +335,7 @@ class _SignInPageState extends State<SignUpPage> {
               elevation: 0,
               borderRadius: BorderRadius.all(Radius.circular(30)),
               child: Icon(
-                Icons.email,
+                Icons.contact_mail,
                  color: Colors.greenAccent[400],
               ),
             ),

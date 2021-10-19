@@ -38,25 +38,23 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   
                   child: Column(
                     children: <Widget>[
-                      SizedBox(
-                        height: 40,
+                       SizedBox(
+                        height: 60,
                       ),
-                      Icon(
-                        Icons.local_pharmacy_outlined,
-                        color: Colors.white,
-                        size: 60,
-                      ),
+                    
                       
+                      Center(
+                        child: Image.asset('assets/logo3.png',
+        height: 100,
+        width: 110,
+                         // color: Colors.white,
+
+        ),
+                      ),
                       SizedBox(
                         height: 20,
                       ),
-                      Text(
-                        "  Dweya  ",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 30),
-                      ),
+                    
                     ],
                   ),
                   width: double.infinity,
@@ -160,10 +158,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(100)),
-                     color: Colors.greenAccent[400],),
+                     color: Color(0xFF00E676)),
            child: FlatButton(
                   child: Text(
-                    "Update password",
+                    "Modifier le mot de passe",
                     style: TextStyle(
                          color: Colors.white,
                         fontWeight: FontWeight.w700,

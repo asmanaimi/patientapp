@@ -2,9 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:patientapp/NetworkHandler.dart';
+import 'package:patientapp/models/profileModel.dart';
 import 'package:patientapp/pages/HomeScreen.dart';
 import 'package:patientapp/pages/SignInPage.dart';
 import 'package:patientapp/pages/addordonnance.dart';
+import 'package:patientapp/pages/editprofile.dart';
+import 'package:patientapp/profile/MainProfile.dart';
 import 'package:patientapp/profile/ProfileScreen.dart';
 
 
@@ -16,11 +19,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  
 int currentState = 0;
  List<Widget> widgets = [HomeScreen(), ProfileScreen()];
-  List<String> titleString = ["Home Page", "Profile Page"];
+  List<String> titleString = ["Acceuil", "Mon profile"];
   final storage = FlutterSecureStorage();
   NetworkHandler networkHandler = NetworkHandler();
+    ProfileModel profileModel = ProfileModel();
+
   String email = "";
   Widget profilePhoto = Container(
     height: 100,
@@ -77,31 +83,31 @@ int currentState = 0;
                   SizedBox(
                     height: 10,
                   ),
-                  Text("@$email"),
+                  Text("$email"),
                 ],
               ),
             ),
             ListTile(
-              title: Text("All Ordonnances"),
+              title: Text("Listes des ordonnances"),
               trailing: Icon(Icons.launch),
-              onTap: () {},
+              onTap: () {
+   Navigator.of(context)
+             .push(MaterialPageRoute(builder: (context) =>HomePage()));
+
+              },
             ),
             ListTile(
-              title: Text("New ordonnance"),
+              title: Text("Ajouter une ordonnance "),
               trailing: Icon(Icons.add),
-              onTap: () {},
+              onTap: () { Navigator.of(context)
+             .push(MaterialPageRoute(builder: (context) => Addordonnance()));},
             ),
             ListTile(
-              title: Text("Liste pharmacy"),
+              title: Text("Mon profile"),
               trailing: Icon(Icons.settings),
               onTap: () {
-             /*   Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) =>ListePharmacypage(
-  //url: "/admins/listpha",
- 
-              ),),
-                            (route) => false);
-                 */     
+              Navigator.of(context)
+             .push(MaterialPageRoute(builder: (context) =>ProfileScreen()));  
        
               },
             ),
@@ -111,7 +117,7 @@ int currentState = 0;
               onTap: () {},
             ),*/
             ListTile(
-              title: Text("Logout"),
+              title: Text("Déconnecter"),
               trailing: Icon(Icons.power_settings_new),
               onTap: logout,
             ),
@@ -123,7 +129,7 @@ int currentState = 0;
         title: Text(titleString[currentState]),
         centerTitle: true,
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
+         // IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

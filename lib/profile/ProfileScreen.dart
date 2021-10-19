@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:patientapp/NetworkHandler.dart';
+import 'package:patientapp/pages/HomeScreen.dart';
 import 'package:patientapp/profile/CreatProfile.dart';
 import 'package:patientapp/profile/MainProfile.dart';
 
@@ -14,6 +15,9 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   NetworkHandler networkHandler = NetworkHandler();
   Widget page = CircularProgressIndicator();
+  List<Widget> widgets = [HomeScreen(), ProfileScreen()];
+  List<String> titleString = ["Acceuil", "Mon profile"];
+  int currentState = 0;
   @override
   void initState() {
     super.initState();
@@ -28,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
     } else {
       setState(() {
-        page = button();
+        page = CreatProfile();
       });
     }
   }
@@ -42,10 +46,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget showProfile() {
-    return Center(child: Text("Profile Data is Avalable"));
+    return Center(child: Text("Profile existe"));
   }
 
-  Widget button() {
+ /* Widget button() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 70),
       child: Column(
@@ -89,6 +93,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
-  }
+  }*/
 }
 

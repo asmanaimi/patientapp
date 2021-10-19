@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:patientapp/NetworkHandler.dart';
 import 'package:patientapp/models/AddOrdoModel.dart';
 import 'package:patientapp/pages/HomePage.dart';
+import 'package:patientapp/pages/HomeScreen.dart';
 
 class OrdoCard extends StatelessWidget {
   const  OrdoCard({Key key, this.addOrdoModel, this.networkHandler})
@@ -44,17 +45,17 @@ class OrdoCard extends StatelessWidget {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Warning!'),
+          title: Text('Alerte!'),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Text('Are you sure want delete this item?'),
+                Text('Voulez-vous vraiment supprimer cette ordononnance ?'),
               ],
             ),
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text('Yes'),
+              child: Text('Oui'),
               onPressed: () {
               
 
@@ -64,10 +65,11 @@ Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                               builder: (context) => HomePage()),
-                          (route) => false);              },
+                          (route) => false);    
+                                   },
             ),
             FlatButton(
-              child: const Text('No'),
+              child: const Text('Non'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -79,17 +81,17 @@ Navigator.pushAndRemoveUntil(
   }
     
     return Container(
-      height: 696,
+      height: 380,
       padding: EdgeInsets.symmetric(horizontal: 13, vertical: 8),
-      width: MediaQuery.of(context).size.width,
+      width: 370,
       child: Column(
          children: <Widget>[
         Card(
           child: Stack(
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
+                height: 275,
+                width: 280,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                       image: networkHandler.getImage(addOrdoModel.id),
@@ -119,7 +121,7 @@ Navigator.pushAndRemoveUntil(
         ),
             Center(
                 child: IconButton(
-                icon: Icon(Icons.delete),
+                icon: Icon(Icons.delete,color:Color(0xFF00E676)),
              
                  
                 onPressed: () {

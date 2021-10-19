@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:patientapp/NetworkHandler.dart';
 import 'package:patientapp/models/profileModel.dart';
 import 'package:patientapp/pages/editprofile.dart';
-import 'package:patientapp/pages/ordonnances.dart';
 
 class MainProfile extends StatefulWidget {
   MainProfile({Key key}) : super(key: key);
@@ -34,10 +33,10 @@ class _MainProfileState extends State<MainProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffEEEEFF),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white10,
+        backgroundColor: Colors.white,
         // leading: IconButton(
         //   icon: Icon(Icons.arrow_back),
         //   onPressed: () {},
@@ -53,7 +52,7 @@ class _MainProfileState extends State<MainProfile> {
                             (route) => false);
                       
             },
-            color: Colors.black,
+            color:  Color(0xFF00E676),
           ),
         ],
       ),
@@ -72,9 +71,11 @@ class _MainProfileState extends State<MainProfile> {
               backgroundImage: NetworkHandler().getImage(profileModel.email),
             ),
           ),
-                 Text(profileModel.email?? ' ',
-    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-), 
+                 Center(
+                   child: Text(profileModel.email?? ' ',
+    style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+),
+                 ), 
           SizedBox(
             height: 10,
           ),
@@ -83,13 +84,13 @@ class _MainProfileState extends State<MainProfile> {
       ),
     ),
                 Divider(
-                  thickness: 0.8,
+                  thickness: 0.3,
                 ),
-                otherDetails("username", profileModel.username?? ' '),
-                otherDetails("tel", profileModel.tel?? ' '),
-                otherDetails("adress", profileModel.adress?? ' '),
+                otherDetails("Nom", profileModel.username?? ' '),
+                otherDetails("Tél", profileModel.tel?? ' '),
+                otherDetails("Adresse", profileModel.adress?? ' '),
                 Divider(
-                  thickness: 0.8,
+                  thickness: 0.3,
                 ),
                 SizedBox(
                   height: 20,
@@ -110,21 +111,26 @@ class _MainProfileState extends State<MainProfile> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            
-            "$label :",
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
+          Center(
+            child: Text(
+              
+              "$label :",
+              style: TextStyle(
+              color:  Color(0xFF00E676),
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           
           SizedBox(
             height: 5,
           ),
-          Text(
-            value,
-            style: TextStyle(fontSize: 15),
+          Center(
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 15),
+            ),
           )
         ],
       ),

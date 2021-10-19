@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:patientapp/NetworkHandler.dart';
 import 'package:patientapp/models/profileModel.dart';
 import 'package:patientapp/pages/HomePage.dart';
+import 'package:patientapp/profile/MainProfile.dart';
 
 
 class EditProfile extends StatefulWidget {
@@ -53,11 +54,15 @@ new TextEditingController(text: widget.profilemodel.adress);
       circular = false;
     });
   }
+  
   @override
   Widget build(BuildContext context) {
   //fetchData();
     return Scaffold(
-      body: Form(
+      body: 
+      
+      
+      Form(
         key: _globalkey,
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
@@ -84,48 +89,60 @@ new TextEditingController(text: widget.profilemodel.adress);
                 setState(() {
                   circular = true;
                 });
-                   if (_globalkey.currentState.validate()) {
-                       
-                      Map<String, String> data = {
+                  if (_globalkey.currentState.validate()) {
+                  Map<String, String> data = {
                     "username": _username.text,
-                   
                     "tel": _tel.text,
                     "adress": _adress.text,
                     
                   };
-                                
-                       _globalkey.currentState.save();
-                  
-                       networkHandler.patch("/profile/update", data);
-               
-                   
+                  _globalkey.currentState.save();
+                  var response =
+                      await networkHandler.patch("/profile/update", data);
+                  if (response.statusCode == 200 ||
+                      response.statusCode == 201) {
+                    if (_imageFile.path != null) {
+                      var imageResponse = await networkHandler.patchImage(
+                          "/profile/add/image", _imageFile.path);
+                      if (imageResponse.statusCode == 200) {
+                        setState(() {
+                          circular = false;
+                        });
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HomePage(),
                           ),
                           (route) => false);
-                    
-                        }  
-                       
-                        
-                    
-                   
-                },
-              
+                      }
+                    } else {
+                      setState(() {
+                        circular = false;
+                      });
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePage(),
+                          ),
+                          (route) => false);
+                    }
+                  }
+                }
+              },
               child: Center(
                 child: Container(
-                  width: 200,
+                  width: 250,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Colors.teal,
+                  gradient: LinearGradient(
+                          colors: [Color(0xFF69F0AE), Color(0xFF00E676)]),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Center(
+                  child:  Center(
                     child: circular
                         ? CircularProgressIndicator()
                         : Text(
-                            "update",
+                            "Modifier votre profile",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -139,6 +156,16 @@ new TextEditingController(text: widget.profilemodel.adress);
           ],
         ),
       ),
+       appBar:AppBar(
+        backgroundColor: Color(0xFF00E676),
+        title: Text("Editer votre profile"),
+        centerTitle: true,
+        
+         leading:IconButton(icon: Icon(Icons.arrow_back,color: Colors.white),onPressed: () {Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                          (route) => false);}),
+       
+      ),
     );
   }
 
@@ -149,8 +176,8 @@ new TextEditingController(text: widget.profilemodel.adress);
         CircleAvatar(
           radius: 80.0,
           backgroundImage: _imageFile == null
-              ? AssetImage("assets/asma.jpg")
-              : FileImage(File(_imageFile.path)),
+              ? NetworkHandler().getImage(email)
+ : FileImage(File(_imageFile.path)),
         ),
         Positioned(
           bottom: 20.0,
@@ -164,7 +191,7 @@ new TextEditingController(text: widget.profilemodel.adress);
             },
             child: Icon(
               Icons.camera_alt,
-              color: Colors.greenAccent[400],
+              color: Color(0xFF00E676),
               size: 28.0,
             ),
           ),
@@ -184,7 +211,7 @@ new TextEditingController(text: widget.profilemodel.adress);
       child: Column(
         children: <Widget>[
           Text(
-            "Choose Profile photo",
+            "Choisir une photo de profile",
             style: TextStyle(
               fontSize: 20.0,
             ),
@@ -227,13 +254,14 @@ new TextEditingController(text: widget.profilemodel.adress);
                     controller: _username,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'name',
+                      hintText: 'Saisir un nouveau nom',
                       fillColor: Colors.grey[300],
+
                       filled: true,
                     ),
                     validator: (value) {
                                   if (value.isEmpty) {
-                                    return 'Please enter country';
+                                    return 'tous les champs sont obligatoires';
                                   }
                                   return null;
                                 },
@@ -247,13 +275,14 @@ new TextEditingController(text: widget.profilemodel.adress);
                     controller: _tel,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'tel',
+                      hintText: 'Saisir un nouveau numéro',
                       fillColor: Colors.grey[300],
+
                       filled: true,
                     ),
                     validator: (value) {
                                   if (value.isEmpty) {
-                                    return 'Please enter country';
+                                    return 'tous les champs sont obligatoires';
                                   }
                                   return null;
                                 },
@@ -266,13 +295,14 @@ new TextEditingController(text: widget.profilemodel.adress);
                     controller: _adress,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'adress',
+                      hintText: 'Saisir un nouveau adresse',
                       fillColor: Colors.grey[300],
+
                       filled: true,
                     ),
                     validator: (value) {
                                   if (value.isEmpty) {
-                                    return 'Please enter country';
+                                    return 'tous les champs sont obligatoires';
                                   }
                                   return null;
                                 },

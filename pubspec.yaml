@@ -34,21 +34,26 @@ dependencies:
   flutter_secure_storage: ^3.3.3
   flutter_svg: ^0.22.0
   font_awesome_flutter: ^9.1.0
-  google_maps_flutter: ^0.0.3
-  flutter_google_places: ^0.1.4
   location: ^3.0.0
   image_picker: ^0.6.7+4
   json_annotation: 3.1.1
   firebase_messaging: ^7.0.3
   lottie: ^0.6.0
+  dropdown_search: 
 
 dev_dependencies:
   build_runner: ^1.10.0
   json_serializable: 3.5.1
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo4.png"
+
+  
 
   flutter_test:
     sdk: flutter
-
+  
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -65,9 +70,12 @@ flutter:
     - assets/logo.png
     - assets/logo2.png
     - assets/logo3.png
+    - assets/pr.png
+    - assets/d.png
     - assets/logo4.png
-
     - assets/asma.jpg
+    - assets/logoc.png
+    - assets/logocc.png
     - assets/patient.json
   #   - images/a_dot_ham.jpeg
 

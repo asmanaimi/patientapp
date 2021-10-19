@@ -55,7 +55,7 @@ class _CreatProfileState extends State<CreatProfile> {
                 });
                 if (_globalkey.currentState.validate()) {
                   Map<String, String> data = {
-                    "name": _username.text,
+                    "username": _username.text,
                     "tel": _tel.text,
                     "adress": _adress.text,
                     
@@ -88,17 +88,17 @@ class _CreatProfileState extends State<CreatProfile> {
               },
               child: Center(
                 child: Container(
-                  width: 200,
+                  width: 250,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: Colors.teal,
+                    color: Color(0xFF00E676),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(
                     child: circular
                         ? CircularProgressIndicator()
                         : Text(
-                            "Submit",
+                            "Créer votre profile",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -121,7 +121,7 @@ class _CreatProfileState extends State<CreatProfile> {
         CircleAvatar(
           radius: 80.0,
           backgroundImage: _imageFile == null
-              ? AssetImage("assets/asma.jpg")
+              ? AssetImage("assets/d.png")
               : FileImage(File(_imageFile.path)),
         ),
         Positioned(
@@ -136,7 +136,7 @@ class _CreatProfileState extends State<CreatProfile> {
             },
             child: Icon(
               Icons.camera_alt,
-              color: Colors.greenAccent[400],
+              color: Color(0xFF00E676),
               size: 28.0,
             ),
           ),
@@ -156,7 +156,7 @@ class _CreatProfileState extends State<CreatProfile> {
       child: Column(
         children: <Widget>[
           Text(
-            "Choose Profile photo",
+            "Choisir une photo de profile",
             style: TextStyle(
               fontSize: 20.0,
             ),
@@ -198,27 +198,27 @@ class _CreatProfileState extends State<CreatProfile> {
     return TextFormField(
       controller: _username,
       validator: (value) {
-        if (value.isEmpty) return "Name can't be empty";
+        if (value.isEmpty) return "Tous les champs sont onligatoires";
 
         return null;
       },
       decoration: InputDecoration(
         border: OutlineInputBorder(
             borderSide: BorderSide(
-         color: Colors.greenAccent[400],
+         color:Color(0xFF00E676),
         )),
         focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-         color: Colors.greenAccent[400],
+         color: Color(0xFF00E676),
           width: 2,
         )),
         prefixIcon: Icon(
           Icons.person,
-         color: Colors.greenAccent[400],
+         color: Color(0xFF00E676),
         ),
-        labelText: "Name",
-        helperText: "Name can't be empty",
-        hintText: "Dev Stack",
+        labelText: "Nom",
+        helperText: "Saisir votre nom s'il vous plait ",
+        hintText: " exemple:naimi ",
       ),
     );
   }
@@ -227,27 +227,27 @@ class _CreatProfileState extends State<CreatProfile> {
     return TextFormField(
       controller: _tel,
       validator: (value) {
-        if (value.isEmpty) return "tel can't be empty";
+        if (value.isEmpty) return "Tous les champs sont onligatoires";
 
         return null;
       },
       decoration: InputDecoration(
         border: OutlineInputBorder(
             borderSide: BorderSide(
-          color: Colors.greenAccent[400],
+          color:Color(0xFF00E676),
         )),
         focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-           color: Colors.greenAccent[400],
+           color: Color(0xFF00E676),
           width: 2,
         )),
         prefixIcon: Icon(
           Icons.call,
-          color: Colors.green,
+          color: Color(0xFF00E676),
         ),
-        labelText: "tel",
-        helperText: "tel can't be empty",
-        hintText: "xx xxx xxx",
+        labelText: "Tél",
+        helperText: "Saisir votre numéro s'il vous plait",
+        hintText: " exemple: 27147963 ",
       ),
     );
   }
@@ -256,27 +256,27 @@ class _CreatProfileState extends State<CreatProfile> {
     return TextFormField(
       controller: _adress,
       validator: (value) {
-        if (value.isEmpty) return "adress can't be empty";
+        if (value.isEmpty) return "Tous les champs sont onligatoires";
 
         return null;
       },
       decoration: InputDecoration(
         border: OutlineInputBorder(
             borderSide: BorderSide(
-       color: Colors.greenAccent[400],
+       color: Color(0xFF00E676),
         )),
         focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-         color: Colors.greenAccent[400],
+         color: Color(0xFF00E676),
           width: 2,
         )),
         prefixIcon: Icon(
           Icons.home,
-          color: Colors.green,
+          color:Color(0xFF00E676),
         ),
-        labelText: "Adress",
-        helperText: "adress",
-        hintText: "xx xxxxx  xxxxxx",
+        labelText: "Adresse",
+        helperText: "Saisir votre adresse s'il vous plait",
+        hintText: " exemple:12 rue ibn haithem tunis ",
       ),
     );
   }

@@ -12,10 +12,10 @@ AddOrdoModel _$AddOrdoModelFromJson(Map<String, dynamic> json) {
     email: json['email'] as String,
     priseencharge: json['priseencharge'] as String,
     id: json['_id'] as String,
-     listp: json['listp'] as String,
+    technicien: json['technicien'] as String,
+    status: json['status'] as String,
+    listp: json['listp'] as String,
     coverImage: json['coverImage'] as String,
-        technicien: json['technicien'] as String,
-
   );
 }
 
@@ -24,9 +24,9 @@ Map<String, dynamic> _$AddOrdoModelToJson(AddOrdoModel instance) =>
       'email': instance.email,
       'medecin': instance.medecin,
       'priseencharge': instance.priseencharge,
+      'listp': instance.listp,
       'coverImage': instance.coverImage,
-            'listp': instance.listp,
-            'technicien': instance.technicien,
-
+      'technicien': instance.technicien,
+      'status': instance.status,
       '_id': instance.id,
     };

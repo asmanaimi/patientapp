@@ -2,6 +2,7 @@
 
 
 import 'dart:convert';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,6 +27,7 @@ class _AddordonnanceState extends State<Addordonnance> {
   PickedFile _imageFile;
   IconData iconphoto = Icons.image;
   List listitempharmacy =  List();
+
   NetworkHandler networkHandler = NetworkHandler();
   var  selectedType;
   List<String> priseencharge = <String>[
@@ -59,12 +61,12 @@ getListPharmacie();
     return Scaffold(
 appBar:AppBar(
 
-    backgroundColor: Colors.white54,
+    backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
             icon: Icon(
               Icons.clear,
-              color: Colors.black,
+              color: Color(0xFF00E676),
            ), onPressed: () { Navigator.pop(context); },
         ),
     actions: <Widget>[
@@ -83,8 +85,8 @@ FlatButton(
                   }
                 },
             child: Text(
-              "Preview",
-              style: TextStyle(fontSize: 18, color: Colors.blue),
+              "Aperçu",
+              style: TextStyle(fontSize: 18, color:Color(0xFF00E676)),
             ),
           )
 
@@ -98,7 +100,11 @@ body:Form(
   
     children:<Widget>[
   
+  SizedBox(
   
+                height: 60,
+  
+              ),
   
       medecinTextField(),
   
@@ -112,7 +118,7 @@ body:Form(
   listepharmacy(),
       SizedBox(
   
-                height: 20,
+                height: 80,
   
               ),
 
@@ -140,31 +146,36 @@ body:Form(
         controller: _medecin,
         validator: (value) {
           if (value.isEmpty) {
-            return "name of medecin can't be empty";
+            return "tous les champs sont obilgatoires";
           } else if (value.length > 100) {
-            return "name of medecin should be <=30";
+            return "le nom du médecin ne dépasse pas le 30 caractéres";
           }
           return null;
         },
         decoration: InputDecoration(
+         
           border: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.teal,
-            ),
+    color: Color(0xFF00E676),
+                ),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.orange,
+              color: Color(0xFF00E676),
               width: 2,
             ),
           ),
-          labelText: "Add ordonnance and name",
+          labelText: "Ajouter votre ordonnance avec le nom du docteur",
+          labelStyle:TextStyle(
+                  color:Colors.grey,
+                  ),
           prefixIcon: IconButton(
             icon: Icon(
                             iconphoto,
 
-              color: Colors.teal,
-            ), onPressed:  takeCoverPhoto,
+              color: Color(0xFF00E676),
+            ),  onPressed:(){showModalBottomSheet(
+                      context: context, builder: ((builder) => bottomSheet()));}
           
           ),
         ),
@@ -180,14 +191,15 @@ body:Form(
         horizontal: 10,
       ),
       child:         Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black45),
-          borderRadius: BorderRadius.circular(8.0),
-          color: Colors.black12,  //add it here
-        ),
-        
-        child:    new PopupMenuButton<String>(
-                        icon: const Icon(Icons.arrow_drop_down),
+       decoration: BoxDecoration(
+            border: Border.all(color:Color(0xFF00E676)),
+            borderRadius: BorderRadius.circular(8.0),
+            color: Colors.white, 
+            
+          ),
+   
+        child: /*  new PopupMenuButton<String>(
+                        icon: const Icon(Icons.arrow_drop_down,color:Colors.white),
                         onSelected: (String value) {
                           _priseencharge.text = value;
                         },
@@ -196,40 +208,73 @@ body:Form(
                             return new PopupMenuItem(child: new Text(value), value: value);
                           }).toList();
                         },
-                      ),
+                      ),*/
+           DropdownSearch<String>(
+    mode: Mode.MENU,
+    items: priseencharge,
+    
+    label: "Prise en charge",
+
+    hint: "saisir le type de prise en charge",
+    onChanged: (String value) {
+                          _priseencharge.text = value;
+                        },
+                      
+    selectedItem: _priseencharge.text,
+    
+    ),        
       ),
     );
   }
 
    Widget listepharmacy() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-      ),
-      child:         Container(
-        
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black45),
-          borderRadius: BorderRadius.circular(8.0),
-          color: Colors.black12,  //add it here
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
         ),
-       
-        child:  
-  
-    
-          new PopupMenuButton<String>(
-                        icon: const Icon(Icons.arrow_drop_down),
-                        onSelected: (String value) {
-                          _listpharmacy.text = value;
-                        },
-                        itemBuilder: (BuildContext context) {
-                          return listitempharmacy.map<PopupMenuItem<String>>((pharmacy) {
-                            return new PopupMenuItem(child: new Text(pharmacy['listp']),  value:pharmacy['listp']);
-                          }).toList();
-                        },
-                      ),
-          
+        child:         Container(
+             height: 50,
+              width: 360,
+          decoration: BoxDecoration(
+            border: Border.all(color:Color(0xFF00E676)),
+            borderRadius: BorderRadius.circular(8.0),
+            color: Colors.white, 
+            
+          ),
+         
+          child:  
+ 
       
+          new PopupMenuButton<String>(
+            child: Center(child: Text('choisissez une pharmacie',style: TextStyle(color:Colors.grey))),
+
+                         // icon: const Icon(Icons.arrow_drop_down,color:Color(0xFF00E676)),
+                          onSelected: (String value) {
+                            _listpharmacy.text = value;
+                            final snackBar = SnackBar(content: Text('vous avez choisissez le pharmacy du '+value,style: TextStyle(color:Colors.white)),            backgroundColor:Color(0xFF00E676),
+);
+ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          },
+                          itemBuilder: (BuildContext context) {
+                            return listitempharmacy.map<PopupMenuItem<String>>((pharmacy) {
+                              return new PopupMenuItem(child: new Text(pharmacy['listp']),value:pharmacy['listp']);
+                            }).toList();
+                          },
+                        ),
+      
+            /* DropdownSearch<dynamic>(
+               
+      mode: Mode.MENU,
+      items: listitempharmacy,
+      label: "liste des pharmaciens",
+      onChanged: (  pharmacy) {
+                             _listpharmacy.text = pharmacy['listp'];
+                          },
+      selectedItem: _listpharmacy.text,
+      ),  */
+        
+        ),
       ),
     );
   }
@@ -264,12 +309,12 @@ body:Form(
       child: Center(
           child: Container(
             height: 50,
-            width: 200,
+            width: 250,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: Colors.teal),
+                borderRadius: BorderRadius.circular(10), color:Color(0xFF00E676)),
             child: Center(
                 child: Text(
-              "Add Ordonnance",
+              "Ajouter",
               style: TextStyle(
                   color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
             )),
@@ -279,11 +324,49 @@ body:Form(
     );
     
   }
-  void takeCoverPhoto() async {
-    final coverPhoto = await _picker.getImage(source: ImageSource.gallery);
+  
+   Widget bottomSheet() {
+    return Container(
+        height: 100.0,
+        width: MediaQuery.of(context).size.width,
+        margin: EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 20,
+        ),
+        child: Column(children: <Widget>[
+          Text(
+            "sélectionner une photo",
+            style: TextStyle(fontSize: 20.0),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            FlatButton.icon(
+              icon: Icon(Icons.camera),
+              onPressed: () {
+                takePhoto(ImageSource.camera);
+              },
+              label: Text("Caméra"),
+            ),
+            FlatButton.icon(
+              icon: Icon(Icons.image),
+              onPressed: () {
+                takePhoto(ImageSource.gallery);
+              },
+              label: Text("Gallerie"),
+            ),
+          ])
+        ]));
+  }
+
+  void takePhoto(ImageSource source) async {
+    final PickedFile = await _picker.getImage(
+      source: source,
+    );
     setState(() {
-      _imageFile = coverPhoto;
-      iconphoto = Icons.check_box;
+      _imageFile = PickedFile;
+      
     });
   }
 }

@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:patientapp/logopage.dart';
 import 'package:patientapp/pages/SignInPage.dart';
 
 
@@ -32,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
            crossAxisAlignment:CrossAxisAlignment.center,
           children: <Widget>[
              SizedBox(
-            height: 80,
+            height: 60,
           ),
             Lottie.asset('assets/patient.json',
             width: 260,

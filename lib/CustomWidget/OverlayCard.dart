@@ -11,20 +11,22 @@ class OverlayCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
      return Container(
-      height: 200,
-      padding: EdgeInsets.all(5),
-      width: MediaQuery.of(context).size.width,
+      height: 450,
+      padding: EdgeInsets.all(0),
+      width: 280,
       child: Stack(
         children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: FileImage(
-                    File(imagefile.path),
-                  ),
-                  fit: BoxFit.fitWidth),
+          Center(
+            child: Container(
+              height:220,
+              width: 180,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: FileImage(
+                      File(imagefile.path),
+                    ),
+                    fit: BoxFit.fitWidth),
+              ),
             ),
           ),
           Positioned(
@@ -35,11 +37,14 @@ class OverlayCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(8)),
-              child: Text(
-                medecin,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
+              child: Center(
+                child: Text(
+                  "Le nom du médecin : "+medecin,
+                  style: TextStyle(
+                     color: Color(0xFF00E676),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
                 ),
               ),
             ),

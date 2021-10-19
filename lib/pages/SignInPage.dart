@@ -110,43 +110,47 @@ class _SignInPageState extends State<SignInPage> {
           SizedBox(
             height: 4,
           ),
+          // ignore: missing_required_param
           Form(
              
           key: _globalkey,
-                      child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32),
-              child: 
-              
+          child: Column(
+                    children: <Widget>[
+                     
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32),
+                child: 
+                
  Material(
       elevation: 2.0,
       borderRadius: BorderRadius.all(Radius.circular(30)),
       child: TextFormField(
       controller: _emailController,
     validator: (value) {
-    if (value.isEmpty) return "Email can't be empty";
-    if (!value.contains("@")) return "Email is Invalid";
+    if (value.isEmpty) return "tous les champs sont oboligatoires";
+    if (!value.contains("@")) return "aaaa...@gmail.com";
     return null;
-            },
+              },
         onChanged: (String value){},
         cursorColor: Colors.deepOrange,
         decoration: InputDecoration(
           errorText: validate ? null : errorText,
-            hintText: "Email",
-            prefixIcon: Material(
-              elevation: 0,
-              borderRadius: BorderRadius.all(Radius.circular(30)),
-              child: Icon(
-                Icons.email,
-                 color: Colors.greenAccent[400],
+              hintText: "votre email",
+              prefixIcon: Material(
+                elevation: 0,
+                borderRadius: BorderRadius.all(Radius.circular(30)),
+                child: Icon(
+                  Icons.email,
+                   color: Color(0xFF00E676),
+                ),
               ),
-            ),
-            border: InputBorder.none,
-            contentPadding:
-                EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+              border: InputBorder.none,
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
       ),
     ),                 
-            ),
-          ),
+              ),
+           
           SizedBox(
             height: 20,
           ),
@@ -160,20 +164,20 @@ class _SignInPageState extends State<SignInPage> {
                 cursorColor: Colors.deepOrange,
               controller: _passwordController,
            validator: (value) {
-              if (value.isEmpty) return "Password can't be empty";
+              if (value.isEmpty) return "tous les champs sont obligatoires";
               return null;
             },
           obscureText: vis,
           decoration: InputDecoration(
             errorText: validate ? null : errorText,
-                    hintText: "Mot de passe",
+                    hintText: "votre mot de passe",
                     
                     prefixIcon: Material(
                       elevation: 0,
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       child: Icon(
                         Icons.lock,
-                        color: Colors.greenAccent[400],
+                        color: Color(0xFF00E676),
                       ),
                     ),
                     suffixIcon: IconButton(
@@ -191,16 +195,22 @@ class _SignInPageState extends State<SignInPage> {
               ),
             ),
           ),
+           
+          
           SizedBox(
             height: 25,
           ),
           Padding(
               padding: EdgeInsets.symmetric(horizontal: 32),
               child: Container(
+                  width: 250,
+
                 decoration: BoxDecoration(
+                  
                     borderRadius: BorderRadius.all(Radius.circular(100)),
-                     color: Colors.greenAccent[400],),
-                child: FlatButton(
+                     gradient: LinearGradient(
+                          colors: [Color(0xFF69F0AE), Color(0xFF00E676)])),
+                child: TextButton(
                   child: Text(
                     "Se connecter",
                     style: TextStyle(
@@ -209,34 +219,38 @@ class _SignInPageState extends State<SignInPage> {
                         fontSize: 18),
                   ),
                    onPressed: () async {
+
                      setState(() {
                       circular = true;
                     });
                       //await checkUser();
-                 // if (_globalkey.currentState.validate() && validate) {
+                   if (_globalkey.currentState.validate()) {
+                    // we will send the data to rest server
                     Map<String, String> data = {
                       "email": _emailController.text,
                       "password": _passwordController.text,
                       "token": myToken,
-
                     };
-
+                    print(data);
                     var response =
                         await networkHandler.post("/user/login", data);
 
-                    if (response.statusCode == 200 ||
+                     if (response.statusCode == 200 ||
                         response.statusCode == 201) {
                       Map<String, dynamic> output = json.decode(response.body);
                      
-                    
-                      print(output["token"]);
+                          print(output["token"]);
                      
                       await storage.write(key: "token", value: output["token"]);
-                      setState(() {
+                        
+                         setState(() {
                         validate = true;
                         circular = false;
                       });
-                        if (output["token"] != null) {  
+                   
+                  
+               
+                   if (output["token"] != null) {  
                    
                       Navigator.pushAndRemoveUntil(
                           context,
@@ -246,21 +260,32 @@ class _SignInPageState extends State<SignInPage> {
                           (route) => false);
                     
                         }  
-                       
-                        }
-                    else {
+                      else {
                       String output = json.decode(response.body);
                       setState(() {
                         validate = false;
                         errorText = output;
                         circular = false;
                       });
+                    } 
+                        }
                     }
-                  //  }
-                  },
+
+                    //Login Logic end here
+
+                    else {
+
+                    setState(() {
+                      circular = false;
+                    });
+                  }
+                },
                 ),
                    
               )),
+              ],
+              ),
+          ),
               SizedBox(height: 20,),
        InkWell(
                       onTap: () {
@@ -270,7 +295,7 @@ class _SignInPageState extends State<SignInPage> {
                                 builder: (context) => ForgotPasswordPage()));
                       },
          
-            child: Center(child: Text("mot de passe oublié(e) ?", style: TextStyle( color: Colors.greenAccent[400],fontSize: 12 ,fontWeight: FontWeight.w700),)),
+            child: Center(child: Text("mot de passe oublié(e) ?", style: TextStyle( color: Color(0xFF00E676),fontSize: 12 ,fontWeight: FontWeight.w700),)),
           
        ),
           SizedBox(height: 10,),
@@ -285,7 +310,7 @@ class _SignInPageState extends State<SignInPage> {
                             MaterialPageRoute(
                                 builder: (context) => SignUpPage()));
                       },
-              child:Text(" S'inscrire ", style: TextStyle( color: Colors.greenAccent[400], fontWeight: FontWeight.w500,fontSize: 12, decoration: TextDecoration.underline )),
+              child:Text(" S'inscrire ", style: TextStyle( color: Color(0xFF00E676), fontWeight: FontWeight.w500,fontSize: 12, decoration: TextDecoration.underline )),
              ),
             ],
           )
